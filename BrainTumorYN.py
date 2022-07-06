@@ -50,7 +50,7 @@ datagen.fit(X_train)
 X_train.shape
 lb = LabelEncoder()
 
-X_train,X_test,y_train,y_test = train_test_split(X_train, y_train, test_size=0.15, random_state=42, stratify=y_train)
+X_train,X_test,y_train,y_test = train_test_split(X_train, y_train, test_size=0.20, random_state=42, stratify=y_train)
 
 labels_train=lb.fit(y_train)
 y_train=lb.transform(y_train)
@@ -62,9 +62,9 @@ tf.random.set_seed(45)
 model = EfficientNet.output
 model = tf.keras.layers.GlobalAveragePooling2D()(model)
 model = tf.keras.layers.Dropout(rate=0.55)(model)
-model = tf.keras.layers.Dense(60,activation='elu',kernel_initializer='GlorotNormal')(model)
+model = tf.keras.layers.Dense(60,activation='tanh',kernel_initializer='GlorotNormal')(model)
 model = tf.keras.layers.Dropout(rate=0.3)(model)
-model = tf.keras.layers.Dense(4,activation='softmax')(model)
+model = tf.keras.layers.Dense(2,activation='softmax')(model)
 model = tf.keras.models.Model(inputs=EfficientNet.input, outputs = model)
 opt = Adam(learning_rate=0.000016, beta_1=0.91, beta_2=0.9994, epsilon=1e-08)
 
@@ -77,8 +77,8 @@ early_stopping_cb = keras.callbacks.EarlyStopping(patience=9, restore_best_weigh
 
 history = model.fit(X_train ,y_train,validation_data = (X_test,y_test), epochs=90, batch_size=13, callbacks=early_stopping_cb)
 
-model.save('/media/jerinpaul/New Volume/Models/BrainMRIKGL.h5')
-model.save_weights('/media/jerinpaul/New Volume/Models/BrainMRIKGL.h5')
+model.save('/media/jerinpaul/New Volume/Models/BrainMRIKGL1.h5')
+model.save_weights('/media/jerinpaul/New Volume/Models/BrainMRIKGL1.h5')
 
 #plot loss and accuracy
 pd.DataFrame(history.history).plot(figsize=(8, 5))
@@ -88,7 +88,7 @@ plt.ylabel('Percentage', labelpad=22, fontsize=14)
 plt.grid(True)
 #plt.gca().set_xlim(0,33)
 plt.gca().set_ylim(0,1)
-plt.savefig('/media/jerinpaul/New Volume/Models/BrainMRIYNGCA.png')
+plt.savefig('/media/jerinpaul/New Volume/Models/BrainMRIYNGCA1.png')
 plt.plot()
 plt.show()
 loss, accuracy = model.evaluate(X_test,y_test)
@@ -120,12 +120,67 @@ plt.yticks(va="center")
 plt.title('Confusion Matrix', fontsize=18, pad=18)
 plt.xlabel('Actual class', labelpad=22, fontsize=14)
 plt.ylabel('Predicted class', labelpad=22, fontsize=14)
-plt.savefig('/media/jerinpaul/New Volume/Models/BrainMRIYNLHM.png')
+plt.savefig('/media/jerinpaul/New Volume/Models/BrainMRIYNLHM1.png')
 plt.plot()
 plt.show()
 
 print(classification_report(y_test,pred,target_names=classes))
 
 '''
+43mins
         test_size=0.15
+        ac = elu
+accuracy : 96.078 
+ loss : 0.16
+              precision    recall  f1-score   support
+
+          no       0.95      0.95      0.95        20
+         yes       0.97      0.97      0.97        31
+
+    accuracy                           0.96        51
+   macro avg       0.96      0.96      0.96        51
+weighted avg       0.96      0.96      0.96        51
+'''
+'''
+48mins
+        test_size=0.15
+        ac = relu
+accuracy : 92.157 
+ loss : 0.172
+              precision    recall  f1-score   support
+
+          no       0.90      0.90      0.90        20
+         yes       0.94      0.94      0.94        31
+
+    accuracy                           0.92        51
+   macro avg       0.92      0.92      0.92        51
+weighted avg       0.92      0.92      0.92        51
+'''
+'''
+        test_size=0.15
+        ac = sigmoid
+accuracy : 94.118 
+ loss : 0.16
+              precision    recall  f1-score   support
+
+          no       0.90      0.95      0.93        20
+         yes       0.97      0.94      0.95        31
+
+    accuracy                           0.94        51
+   macro avg       0.94      0.94      0.94        51
+weighted avg       0.94      0.94      0.94        51
+'''
+'''
+        test_size=0.15
+        ac = tanh
+accuracy : 96.078 
+ loss : 0.159
+              precision    recall  f1-score   support
+
+          no       0.95      0.95      0.95        20
+         yes       0.97      0.97      0.97        31
+
+    accuracy                           0.96        51
+   macro avg       0.96      0.96      0.96        51
+weighted avg       0.96      0.96      0.96        51
 '''

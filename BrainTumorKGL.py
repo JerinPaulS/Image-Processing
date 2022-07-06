@@ -56,7 +56,7 @@ datagen.fit(X_train)
 X_train.shape
 lb = LabelEncoder()
 
-X_train,X_test,y_train,y_test = train_test_split(X_train, y_train, test_size=0.15, random_state=42, stratify=y_train)
+X_train,X_test,y_train,y_test = train_test_split(X_train, y_train, test_size=0.30, random_state=42, stratify=y_train)
 
 labels_train=lb.fit(y_train)
 y_train=lb.transform(y_train)
@@ -83,8 +83,8 @@ early_stopping_cb = keras.callbacks.EarlyStopping(patience=9, restore_best_weigh
 
 history = model.fit(X_train ,y_train,validation_data = (X_test,y_test), epochs=90, batch_size=13, callbacks=early_stopping_cb)
 
-model.save('/media/jerinpaul/New Volume/Models/BrainMRIKGL.h5')
-model.save_weights('/media/jerinpaul/New Volume/Models/BrainMRIKGL.h5')
+model.save('/media/jerinpaul/New Volume/Models/BrainMRIKGL3.h5')
+model.save_weights('/media/jerinpaul/New Volume/Models/BrainMRIKGL3.h5')
 
 #plot loss and accuracy
 pd.DataFrame(history.history).plot(figsize=(8, 5))
@@ -93,8 +93,8 @@ plt.xlabel('Epochs', labelpad=22, fontsize=14)
 plt.ylabel('Percentage', labelpad=22, fontsize=14)
 plt.grid(True)
 #plt.gca().set_xlim(0,33)
-plt.gca().set_ylim(0,1)
-plt.savefig('/media/jerinpaul/New Volume/Models/BrainMRIKGLGCA.png')
+plt.gca().set_ylim(0,5)
+plt.savefig('/media/jerinpaul/New Volume/Models/BrainMRIKGLGCA3.png')
 plt.plot()
 plt.show()
 loss, accuracy = model.evaluate(X_test,y_test)
@@ -126,7 +126,7 @@ plt.yticks(va="center")
 plt.title('Confusion Matrix', fontsize=18, pad=18)
 plt.xlabel('Actual class', labelpad=22, fontsize=14)
 plt.ylabel('Predicted class', labelpad=22, fontsize=14)
-plt.savefig('/media/jerinpaul/New Volume/Models/BrainMRIKGLHM.png')
+plt.savefig('/media/jerinpaul/New Volume/Models/BrainMRIKGLHM3.png')
 plt.plot()
 plt.show()
 
@@ -146,4 +146,53 @@ meningioma_tumor       0.95      0.99      0.97       141
         accuracy                           0.98       490
        macro avg       0.98      0.98      0.98       490
     weighted avg       0.98      0.98      0.98       490
+'''
+
+'''
+        test_size=0.20
+accuracy : 96.784 
+ loss : 0.116
+                  precision    recall  f1-score   support
+
+    glioma_tumor       0.96      0.94      0.95       185
+meningioma_tumor       0.96      0.96      0.96       188
+        no_tumor       0.94      1.00      0.97       100
+ pituitary_tumor       0.99      0.99      0.99       180
+
+        accuracy                           0.97       653
+       macro avg       0.97      0.97      0.97       653
+    weighted avg       0.97      0.97      0.97       653
+'''
+
+'''
+        test_size=0.25
+accuracy : 95.343 
+ loss : 0.141
+                  precision    recall  f1-score   support
+
+    glioma_tumor       0.98      0.90      0.93       232
+meningioma_tumor       0.92      0.96      0.94       234
+        no_tumor       0.94      1.00      0.97       125
+ pituitary_tumor       0.98      0.98      0.98       225
+
+        accuracy                           0.95       816
+       macro avg       0.95      0.96      0.96       816
+    weighted avg       0.95      0.95      0.95       816
+
+'''
+'''
+        test_size=0.30
+accuracy : 93.878 
+ loss : 0.184
+                  precision    recall  f1-score   support
+
+    glioma_tumor       0.95      0.87      0.91       278
+meningioma_tumor       0.89      0.93      0.91       281
+        no_tumor       0.94      0.99      0.96       150
+ pituitary_tumor       0.97      0.99      0.98       271
+
+        accuracy                           0.94       980
+       macro avg       0.94      0.94      0.94       980
+    weighted avg       0.94      0.94      0.94       980
+
 '''
