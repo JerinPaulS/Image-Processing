@@ -128,8 +128,3 @@ print("Test Accuracy = {:.2f}%".format(results[1] * 100))
 
 predictions = np.argmax(model.predict(test_images), axis=1)
 
-'''
-[sample=400, epochs=6/100, accuracy=49.25 , activation=RELU],
-[sample=400, epochs=100, accuracy=49.77 , activation=TANH]
-[sample=700, epochs=100, accuracy=53.83 , activation=TANH]
-'''
